@@ -1,22 +1,54 @@
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr'
 import { FiSend } from 'react-icons/fi'
 
+import { Steps } from './components/Steps'
 import { UserForm } from './components/UserForm'
 import { ReviewForm } from './components/ReviewForm'
 import { Thanks } from './components/Thanks'
+
+import { useState } from 'react'
 
 import { useForm } from './hooks/useForm'
 
 import './index.css'
 
-function App () {
-  const formComponents = [
-    <UserForm />,
-    <ReviewForm />,
-    <Thanks />,
-  ]
-  const { changeStep, currentComponent, currentStep, isFirstStep, isLastStep } = useForm(formComponents)
+export type DataProps = {
+  name: string
+  email: string
+  review: string
+  comment: string
+}
 
+function App () {
+  const [data, setData] = useState<DataProps>({
+    name: '',
+    email: '',
+    review: '',
+    comment: ''
+  })
+
+  const handleUpdateField = (key: string, value: string) => {
+    setData(prev => {
+      return {
+        ...prev,
+        [key]: value
+      }
+    })
+  }
+
+  const formComponents = [
+    <UserForm data={data} onUpdateField={handleUpdateField} />,
+    <ReviewForm data={data} onUpdateField={handleUpdateField} />,
+    <Thanks data={data} />,
+  ]
+  const {
+    changeStep,
+    currentComponent,
+    currentStep,
+    isFirstStep,
+    isLastStep
+  } = useForm(formComponents)
+  console.log(data)
   return (
     <section className="app">
       <header className="header">
@@ -27,7 +59,9 @@ function App () {
         </p>
       </header>
       <div className="form-container">
-        <p>Etapas</p>
+        <Steps
+          currentStep={currentStep}
+        />
 
         <form onSubmit={event => changeStep({ index: currentStep + 1, event })}>
           <div className="inputs-container">
