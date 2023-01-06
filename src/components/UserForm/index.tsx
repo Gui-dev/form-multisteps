@@ -1,5 +1,12 @@
+import React from "react"
+import { DataProps } from "../../App"
 
-export const UserForm = () => {
+type UserFormProps = {
+  data: DataProps
+  onUpdateField: (key: string, value: string) => void
+}
+
+export const UserForm = ({ data, onUpdateField }: UserFormProps) => {
   return (
     <div>
       <div className="form-control">
@@ -9,6 +16,8 @@ export const UserForm = () => {
           name="name"
           id="name"
           placeholder="Digite seu nome"
+          value={data?.name}
+          onChange={(event) => onUpdateField('name', event.target.value)}
           required
         />
       </div>
@@ -19,6 +28,8 @@ export const UserForm = () => {
           name="email"
           id="email"
           placeholder="Digite seu e-mail"
+          value={data?.email}
+          onChange={(event) => onUpdateField('email', event.target.value)}
           required
         />
       </div>
