@@ -48,7 +48,7 @@ function App () {
     isFirstStep,
     isLastStep
   } = useForm(formComponents)
-  console.log(data)
+
   return (
     <section className="app">
       <header className="header">
